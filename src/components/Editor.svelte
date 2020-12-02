@@ -1,5 +1,6 @@
 <script>
     import { converter } from './showdown.js';
+    import Viewer from './Viewer.svelte';
     let text = '';
     let mdConverter = converter();
 
@@ -8,9 +9,8 @@
 <div>
     <textarea bind:value={text} class="inline-div" placeholder="type some text..." cols=50 rows=10></textarea>
     <div class="inline-div">Output:
-        <br>
-        <br>
-        {@html mdConverter.makeHtml(text)}
+
+        <Viewer htmlStr={mdConverter.makeHtml(text)}></Viewer>
     </div>
 </div>
 
