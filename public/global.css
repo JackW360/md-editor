@@ -76,3 +76,7 @@ p {
 .block h1 {
 	text-align: center;
 }
+
+.block h2 {
+	border-bottom: 1px solid grey;
+}
