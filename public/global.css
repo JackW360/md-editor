@@ -75,8 +75,17 @@ p {
 
 .block h1 {
 	text-align: center;
+	margin-block-end: 0;
 }
 
 .block h2 {
 	border-bottom: 1px solid grey;
+}
+
+.block h2:nth-child(2) {
+	font-size: 20px;
+	text-align: center;
+	margin-block-start: 0;
+	border: none;
+	color: grey;
 }

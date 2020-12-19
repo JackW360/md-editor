@@ -9,5 +9,5 @@
 <Editor on:click></Editor>
 
 <style>
-	
+
 </style>

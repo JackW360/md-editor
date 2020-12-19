@@ -5,12 +5,13 @@
     let blocks = [{ html: "", text: "", isFocused: true }];
 
     function parseKeyPress(key, index) {
-        console.log("key: ", key);
-        console.log("index: ", index);
+        // console.log("key: ", key);
+        // console.log("index: ", index);
         if (key.key === "Enter") {
             // need to make sure that the cursor is at the end of the text input, otherwise should act differently
             // probably need to act differently for shift + enter
-            if (!key.shiftKey) {
+            if (key.shiftKey) {
+                key.preventDefault();
                 updateBlock(index);
                 addBlock(index);
             }
@@ -19,7 +20,7 @@
             if (blocks[index].text === "") {
                 if (index > 0) {
                     let previousBlock = blocks[index - 1];
-                    blocks.splice(index);
+                    blocks.splice(index, 1);
                     blocks = blocks;
                     key.preventDefault();
                     blockFocus(index - 1);
@@ -35,8 +36,6 @@
             if (index < blocks.length - 1) {
                 blockFocus(index + 1);
             }
-        } else if (key.key === "Shift") {
-            shiftHeld = true;
         }
     }
 
@@ -62,7 +61,7 @@
     }
 
     function blockFocus(index) {
-        console.log("focussing block: " + index);
+        // console.log("focussing block: " + index);
         removeFocus();
         blocks[index].isFocused = true;
         blocks = blocks;
@@ -70,7 +69,7 @@
     }
 
     function autoResize() {
-        this.style.height = 'auto';
+        this.style.height = '';
         this.style.height = this.scrollHeight + 'px';
     }
 </script>
@@ -134,42 +133,27 @@
 
     textarea {
         resize: none;
-        /* height: 30px; */
     }
 
-    input:focus,
     textarea:focus {
         border: none;
         outline: none;
     }
 
-    [contenteditable] {
-        /* color: blue; */
-        /* color: white; */
-        background-color: white;
-        outline: none;
-    }
 </style>
 
 <div class="container">
     {#each blocks as block, index}
-        <!-- <input
-            autofocus
-            id={'input_' + index}
-            class="block input"
-            class:hidden={!block.isFocused}
-            type="text"
-            bind:value={block.text}
-            on:keydown={(e) => parseKeyPress(e, index)}
-             /> -->
         <textarea
             autofocus
             id={'input_' + index}
             class="block input"
+            rows="1"
             class:hidden={!block.isFocused}
             type="text"
             bind:value={block.text}
             on:input={autoResize}
+            on:change={e => updateBlock(index)}
             on:keydown={(e) => parseKeyPress(e, index)}/>
         <div
             id={'block_' + index}
